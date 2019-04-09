@@ -8,15 +8,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TimeZone;
 
 import net.razorvine.pickle.objects.Time;
 import net.razorvine.pickle.objects.TimeDelta;
@@ -340,7 +333,9 @@ public class Pickler {
 		
 		// check if there's a custom pickler registered for an interface or abstract base class
 		// that this object implements or inherits from.
-		for(Entry<Class<?>, IObjectPickler> x: customPicklers.entrySet()) {
+		Iterator<Map.Entry<Class<?>, IObjectPickler>> itr = customPicklers.entrySet().iterator();
+		while (itr.hasNext()) {
+			Entry<Class<?>, IObjectPickler> x = itr.next();
 			if(x.getKey().isAssignableFrom(t)) {
 				return x.getValue();
 			}
